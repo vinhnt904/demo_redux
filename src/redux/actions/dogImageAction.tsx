@@ -22,3 +22,21 @@ export const getDogImageRequestAction = (dispatch: Function) => {
     }
   };
 };
+
+export const increaseAction = (dispatch: Function) => {
+  return async (payload: any) => {
+    dispatch({
+      type: actionTypes.GET_DOG_IMAGE.INCREASE,
+      payload,
+    });
+  };
+};
+
+export const decreaseAction = (dispatch: Function) => {
+  return async (payload: any) => {
+    dispatch({
+      type: actionTypes.GET_DOG_IMAGE.DECREASE,
+      payload,
+    });
+  };
+};

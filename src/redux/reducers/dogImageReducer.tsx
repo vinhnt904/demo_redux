@@ -4,10 +4,21 @@ const initialState = {
   isFetching: false,
   dogImage: '',
   errorMessage: '',
+  number: 0,
 };
 
 export default function (state = initialState, action: any) {
   switch (action.type) {
+    case actionTypes.GET_DOG_IMAGE.INCREASE:
+      return {
+        ...state,
+        number: state.number + 1,
+      };
+    case actionTypes.GET_DOG_IMAGE.DECREASE:
+      return {
+        ...state,
+        number: state.number - 1,
+      };
     case actionTypes.GET_DOG_IMAGE.REQUEST:
       return {
         ...state,

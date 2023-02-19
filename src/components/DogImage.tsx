@@ -8,13 +8,23 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import {connect} from 'react-redux';
-import {getDogImageRequestAction} from '../redux/actions';
+import {
+  increaseAction,
+  decreaseAction,
+  getDogImageRequestAction,
+} from '../redux/actions';
 
 function DogImage(props: any) {
+  const number = props.dogImageReducer.number;
   const dogImage = props.dogImageReducer.dogImage;
   const isLoading = props.dogImageReducer.isFetching;
-  const handlePress = () =>
-    props.getDogImageRequest({behavior: 'BUTTON_PRESS'});
+
+  const handleIncrease = () => props.increment();
+  const handleDecrease = () => props.decrement();
+  const handleApi = () => {
+    const payload = {behavior: 'BUTTON_PRESS'};
+    props.getDogImageRequest(payload);
+  };
 
   const renderImage = () => {
     return (
@@ -35,12 +45,18 @@ function DogImage(props: any) {
       <TouchableOpacity
         disabled={isLoading}
         style={styles.button}
-        onPress={handlePress}>
+        onPress={handleApi}>
         {isLoading ? (
           <ActivityIndicator size={'small'} color={'gray'} />
         ) : (
           <Text>Show Image</Text>
         )}
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.textButton} onPress={handleIncrease}>
+        <Text>Increase {number}</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.textButton} onPress={handleDecrease}>
+        <Text>Decrease {number}</Text>
       </TouchableOpacity>
     </View>
   );
@@ -51,6 +67,8 @@ const mapStateToProps = (reducer: any) => ({
 });
 
 const mapDispatchToProps = (dispatch: Function) => ({
+  increment: increaseAction(dispatch),
+  decrement: decreaseAction(dispatch),
   getDogImageRequest: getDogImageRequestAction(dispatch),
 });
 
@@ -84,5 +102,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'cyan',
     justifyContent: 'center',
     paddingHorizontal: 20,
+  },
+  textButton: {
+    padding: 10,
+    paddingBottom: 0,
   },
 });
