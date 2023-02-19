@@ -1,17 +1,6 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {MainScreen} from './Screen-Pages-Modules';
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>ComponentName</Text>
-    </View>
-  );
+  return <MainScreen />;
 }
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
