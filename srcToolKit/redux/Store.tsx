@@ -1,13 +1,9 @@
-import {composeWithDevTools} from 'redux-devtools-extension';
-import {createStore} from 'redux';
+import {configureStore} from '@reduxjs/toolkit';
 
-import rootReducer from './reducers';
+import rootReducer from './Reducers';
 
-const configureStore = () => {
-  const enhancer =
-    composeWithDevTools(/*any middleware ex: redux-thunk, redux-saga, ...*/);
-
-  return createStore(rootReducer, enhancer);
+export default () => {
+  return configureStore({
+    reducer: rootReducer,
+  });
 };
-
-export default configureStore;

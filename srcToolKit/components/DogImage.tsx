@@ -7,14 +7,22 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
-import {connect} from 'react-redux';
-import {getDogImageRequestAction} from '../redux/actions';
+import {useSelector, useDispatch} from 'react-redux';
+import {dogImageSlice} from '../redux/Slices';
 
-function DogImage(props: any) {
-  const dogImage = props.dogImageReducer.dogImage;
-  const isLoading = props.dogImageReducer.isFetching;
-  const handlePress = () =>
-    props.getDogImageRequest({behavior: 'BUTTON_PRESS'});
+export default function DogImage(props: any) {
+  const dispatch = useDispatch();
+  const number = useSelector(state => state?.dogImage?.number);
+  const dogImage = useSelector(state => state?.dogImage?.dogImage);
+  const isLoading = useSelector(state => state?.dogImage?.isFetching);
+  // const dogData =  useSelector(state => state?.dogImage); // return object
+
+  const handleIncrease = () => dispatch(dogImageSlice.actions.increment());
+  const handleDecrease = () => dispatch(dogImageSlice.actions.decrement());
+  const handleApi = () => {
+    const payload = {behavior: 'BUTTON_PRESS'};
+    dispatch(dogImageSlice.actions.getDogImageRequest(payload));
+  };
 
   const renderImage = () => {
     return (
@@ -35,26 +43,22 @@ function DogImage(props: any) {
       <TouchableOpacity
         disabled={isLoading}
         style={styles.button}
-        onPress={handlePress}>
+        onPress={handleApi}>
         {isLoading ? (
           <ActivityIndicator size={'small'} color={'gray'} />
         ) : (
           <Text>Show Image</Text>
         )}
       </TouchableOpacity>
+      <TouchableOpacity style={styles.textButton} onPress={handleIncrease}>
+        <Text>Increase {number}</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.textButton} onPress={handleDecrease}>
+        <Text>Decrease {number}</Text>
+      </TouchableOpacity>
     </View>
   );
 }
-
-const mapStateToProps = (reducer: any) => ({
-  dogImageReducer: reducer.dogImageReducer,
-});
-
-const mapDispatchToProps = (dispatch: Function) => ({
-  getDogImageRequest: getDogImageRequestAction(dispatch),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(DogImage);
 
 const styles = StyleSheet.create({
   container: {
@@ -84,5 +88,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'cyan',
     justifyContent: 'center',
     paddingHorizontal: 20,
+  },
+  textButton: {
+    padding: 10,
+    paddingBottom: 0,
   },
 });
