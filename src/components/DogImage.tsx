@@ -13,7 +13,8 @@ import {getDogImageRequestAction} from '../redux/actions';
 function DogImage(props: any) {
   const dogImage = props.dogImageReducer.dogImage;
   const isLoading = props.dogImageReducer.isFetching;
-  const handlePress = () => props.getDogImageRequest();
+  const handlePress = () =>
+    props.getDogImageRequest({behavior: 'BUTTON_PRESS'});
 
   const renderImage = () => {
     return (
