@@ -7,18 +7,19 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
+import {connect} from 'react-redux';
+import {getDogImageRequestAction} from '../redux/actions';
 
-type Props = {};
-
-export default function DogImage(props: Props) {
-  const imageUrl = '';
-  const isLoading = false;
+function DogImage(props: any) {
+  const dogImage = props.dogImageReducer.dogImage;
+  const isLoading = props.dogImageReducer.isFetching;
+  const handlePress = () => props.getDogImageRequest();
 
   const renderImage = () => {
     return (
       <View style={styles.imageContainer}>
-        {imageUrl ? (
-          <Image source={{uri: imageUrl}} />
+        {dogImage ? (
+          <Image source={{uri: dogImage}} style={styles.image} />
         ) : (
           <Text>Image here</Text>
         )}
@@ -30,7 +31,10 @@ export default function DogImage(props: Props) {
     <View style={styles.container}>
       {renderImage()}
 
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity
+        disabled={isLoading}
+        style={styles.button}
+        onPress={handlePress}>
         {isLoading ? (
           <ActivityIndicator size={'small'} color={'gray'} />
         ) : (
@@ -40,6 +44,17 @@ export default function DogImage(props: Props) {
     </View>
   );
 }
+
+const mapStateToProps = (reducer: any) => ({
+  dogImageReducer: reducer.dogImageReducer,
+});
+
+const mapDispatchToProps = (dispatch: Function) => ({
+  getDogImageRequest: getDogImageRequestAction(dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(DogImage);
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -57,11 +72,16 @@ const styles = StyleSheet.create({
     borderWidth: StyleSheet.hairlineWidth,
     borderColor: '#a2a2a2',
   },
+  image: {
+    width: '100%',
+    height: '100%',
+  },
   button: {
+    height: 44,
     marginTop: 20,
     borderRadius: 4,
     backgroundColor: 'cyan',
-    paddingVertical: 12,
+    justifyContent: 'center',
     paddingHorizontal: 20,
   },
 });
