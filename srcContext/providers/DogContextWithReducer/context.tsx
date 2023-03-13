@@ -1,5 +1,5 @@
 import React from 'react';
-import {ValueType, ContextDataType} from './types';
+import {ValueType, MethodType, ContextDataType} from './types';
 
 export const defaultValue: ValueType = {
   isFetching: false,
@@ -8,6 +8,13 @@ export const defaultValue: ValueType = {
   number: 0,
 };
 
-export const Context = React.createContext<ContextDataType | undefined>(
-  undefined,
-);
+export const defaultMethod: MethodType = {
+  increment: () => {},
+  decrement: () => {},
+  getDogImageRequest: () => undefined,
+};
+
+export const Context = React.createContext<ContextDataType>({
+  ...defaultValue,
+  ...defaultMethod,
+});

@@ -30,12 +30,5 @@ export function DogProvider(props: {children: React.ReactNode}) {
 }
 
 export function useDog(): ContextDataType {
-  return (
-    React.useContext(Context) || {
-      ...defaultValue,
-      increment: () => {},
-      decrement: () => {},
-      getDogImageRequest: () => undefined,
-    }
-  );
+  return React.useContext(Context);
 }

@@ -20,8 +20,15 @@ const defaultValue: ValueType = {
   errorMessage: '',
   number: 0,
 };
-
-const Context = React.createContext<ContextDataType | undefined>(undefined);
+const defaultMethod: MethodType = {
+  increment: () => {},
+  decrement: () => {},
+  getDogImageRequest: () => undefined,
+};
+const Context = React.createContext<ContextDataType>({
+  ...defaultValue,
+  ...defaultMethod,
+});
 
 export function DogProvider(props: {children: React.ReactNode}) {
   const [state, setState] = React.useState<ValueType>(defaultValue);
@@ -63,12 +70,5 @@ export function DogProvider(props: {children: React.ReactNode}) {
 }
 
 export function useDog(): ContextDataType {
-  return (
-    React.useContext(Context) || {
-      ...defaultValue,
-      increment: () => {},
-      decrement: () => {},
-      getDogImageRequest: () => undefined,
-    }
-  );
+  return React.useContext(Context);
 }
