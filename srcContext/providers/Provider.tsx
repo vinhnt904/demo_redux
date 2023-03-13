@@ -1,5 +1,6 @@
 import React from 'react';
-import {DogProvider} from './DogContext';
+// import {DogProvider} from './DogContext';
+import {DogProvider} from './DogContextWithReducer';
 
 type Props = {
   children: React.ReactNode;

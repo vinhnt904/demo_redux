@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import {useDog} from '../providers';
 
-export default function DogImage(props: any) {
+export default function DogImage() {
   const dogData = useDog();
 
   const number = dogData.number;
